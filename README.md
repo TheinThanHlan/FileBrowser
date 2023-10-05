@@ -7,6 +7,6 @@ This is the project to browse and open the files.
   - python3
   -   kivy
 
-#Installation
+<h1>Installation</h1>
   - clone the repo
   - python3 main.py
