@@ -1,0 +1,94 @@
+
+<MFC>:
+	dirselect: True
+	multiselect:False
+	show_hidden:True
+		
+
+<TopBar>:
+	cols:2
+	size_hint:(1,None)
+		
+
+<TI>:
+	multiline:False
+	
+	
+<NOTI_LABEL>:
+	font_size:18
+	markup:True
+	halign:'left'
+	valign:'middle'
+
+
+
+<MyLayout>
+	id:my_widget
+	BoxLayout:
+		orientation:"vertical"
+		size:root.width,root.height
+		padding:4
+		spacing:4
+		
+		TopBar:
+			height:30
+			id:tb
+			
+			TI:
+				id:ti
+			GridLayout:
+				cols:10
+				Button:
+					text:"new file"
+				
+				Button:
+					text:"new folder"
+			
+
+				Button:
+					text:"Open"
+					on_press:tb.openInEditor()
+				Button:
+					text:'Reload'
+					on_press:fc.reloadMFC()
+				
+				Button:
+					text:'Delete'
+					on_press:
+						tb.moveToTrash() 
+						fc.reloadMFC()	
+				Button:
+					text:"Rename"
+					on_press:
+						error_noti.setText("" if tb.changeFileName(new_name=ti.text) else "Type name in text box")
+						ti.setText()
+						fc.reloadMFC()
+				Button:
+			
+		MFC:
+			id:fc
+			on_selection:
+				self.selected(fc.selection)
+				selected_noti.setText(fc.selection[0])
+				#tmp_noti.setText("Folder" if tmp_noti.isFolder(fc.selection[0])==True else "File")
+			
+			on_submit:tb.openInEditor()
+			rootpath: self.cwd
+
+		
+		GridLayout:
+			size_hint:(1,None)
+			height:30
+			spacing :1
+			cols:2
+			NOTI_LABEL:
+				id:selected_noti
+				background_color:1,0,0,1
+				text:""
+				size_hint_x:.8
+			
+			
+			NOTI_LABEL:
+				id:error_noti
+				background_color:1,0,0,1
+				text:""
